@@ -1,20 +1,28 @@
 const { BelongsToOneRelation } = require('objection')
 const BaseModel = require('./BaseModel')
 
-class Pet extends BaseModel {
+class Relation extends BaseModel {
   static get tableName() {
-    return 'pets'
+    return 'relations'
   }
 
   static get relationMappings() {
     const User = require('./User')
 
     return {
-      owner: {
+      child: {
         relation: BelongsToOneRelation,
         modelClass: User,
         join: {
-          from: 'pets.ownerId',
+          from: 'relations.childId',
+          to: 'users.id',
+        },
+      },
+      parent: {
+        relation: BelongsToOneRelation,
+        modelClass: User,
+        join: {
+          from: 'relations.parentId',
           to: 'users.id',
         },
       },
@@ -22,4 +30,4 @@ class Pet extends BaseModel {
   }
 }
 
-module.exports = Pet
+module.exports = Relation

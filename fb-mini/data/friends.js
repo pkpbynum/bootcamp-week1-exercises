@@ -1,25 +1,31 @@
 const casual = require('casual')
 const userData = require('./users')
 
-casual.define('friend', ({ requestorId, requestedId }) => ({
+
+casual.define('friend', ({ requestedId, requestorId }) => ({
   id: casual.uuid,
   requestedId,
   requestorId,
+  status: casual.random_element([
+    'REQUESTED',
+    'ACCEPTED',
+    'DECLINED',
+  ]),
   created_at: casual.moment,
   updated_at: casual.moment,
 }))
 
-const friends = []
+const friendships = []
 
-for (let i = 0; i < 30; ++i) {
+for (let i = 0; i < 20; ++i) {
   const requestedId = casual.random_element(userData).id
-  let requestorId = null
+  let requestorId
 
   do {
     requestorId = casual.random_element(userData).id
   } while (requestedId === requestorId)
 
-  friends.push(casual.friend({ requestorId, requestedId }))
+  friendships.push(casual.friend({ requestedId, requestorId }))
 }
 
-module.exports = friends
+module.exports = friendships

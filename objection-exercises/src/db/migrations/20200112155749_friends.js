@@ -1,5 +1,5 @@
 
-exports.up = knex => knex.schema.createTable('friends', table => {
+exports.up = knex => knex.schema.createTable('relations', table => {
   table
     .uuid('id')
     .notNullable()
@@ -7,13 +7,13 @@ exports.up = knex => knex.schema.createTable('friends', table => {
     .defaultTo(knex.raw('uuid_generate_v4()'))
 
   table
-    .uuid('requestorId')
+    .uuid('parentId')
     .references('users.id')
     .onUpdate('CASCADE')
     .onDelete('CASCADE')
 
   table
-    .uuid('requestedId')
+    .uuid('childId')
     .references('users.id')
     .onUpdate('CASCADE')
     .onDelete('CASCADE')
@@ -21,4 +21,4 @@ exports.up = knex => knex.schema.createTable('friends', table => {
   table.timestamps(true)
 })
 
-exports.down = knex => knex.schema.dropTableIfExists('friends')
+exports.down = knex => knex.schema.dropTableIfExists('relations')

@@ -4,10 +4,12 @@ const User = require('../models/User')
 
 const run = (async () => {
   // Write Queries and Logs Here !!!
-  const allUsers = await User.query()
-  console.log(allUsers)
+  const user = await User.query().first()
+  console.log(user)
 
-  // Get all pets
+  const children = await user.$fetchGraph('children.children')
+
+  console.log('****', children)
 
 
   // Get the name and age of all users
